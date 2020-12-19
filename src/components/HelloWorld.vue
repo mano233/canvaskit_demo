@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <img id="test_img" width="100" height="100"/>
     <canvas id="canvas" style="border: 1px solid red;" height="800" width="800"></canvas>
     <canvas id="canvas1" style="border: 1px solid green;" height="800" width="800"></canvas>
   </div>
@@ -70,6 +71,7 @@ export default {
       function drawFrame1(canvas){
         canvas.drawColor(CanvasKit.Color(255,255,0,1))
         canvas.drawImage(CanvasKit.MakeImageFromCanvasImageSource(document.getElementById('canvas')),0,0,paint)
+        document.getElementById('test_img').src = document.getElementById('canvas').toDataURL()
         canvas.flush();
       }
 
