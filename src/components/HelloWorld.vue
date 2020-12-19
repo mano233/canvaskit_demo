@@ -36,7 +36,7 @@ export default {
       paint.setAntiAlias(true)
       paint.setColor(CanvasKit.Color(0, 0, 0, 1.0))
       paint.setStyle(CanvasKit.PaintStyle.Stroke)
-      paint.setStrokeWidth(4.0)
+      paint.setStrokeWidth(40.0)
       paint.setPathEffect(CanvasKit.PathEffect.MakeCorner(50))
 
       let path = new CanvasKit.Path();
@@ -44,10 +44,7 @@ export default {
 
       // 保存一下原始的混合模式
       let baseBlendMode = paint.getBlendMode()
-
-      // 混合模式变量
-      let blendMode = baseBlendMode
-
+      let paint1 = paint.copy()
       function drawFrame () {
         CanvasKit.setCurrentContext(context);
         skcanvas.drawImage(bg_img, 0, 0, paint)
@@ -57,7 +54,6 @@ export default {
         skcanvas.scale(0.1, 0.1)
         skcanvas.drawImage(fr_img, 0, 0, paint)
         skcanvas.restoreToCount(layer_1_id)
-        let paint1 = paint.copy()
         paint1.setColor(CanvasKit.Color(255, 0, 255, 1));
         // 绘制所有的笔刷
         for (let i = 0; i < paths.length; i++) {
@@ -67,7 +63,6 @@ export default {
         }
         skcanvas.restoreToCount(layer_0_id)
         skcanvas.flush();
-        requestAnimationFrame(drawFrame);
       }
 
       let hold = false;
@@ -84,10 +79,12 @@ export default {
           path.moveTo(e.offsetX, e.offsetY);
         }
         hold = true;
+        requestAnimationFrame(drawFrame);
       });
       canvas.addEventListener('mouseup',(e)=>{
         // 鼠标抬起的时候，修改最后一条笔刷的混合模式
         paths[paths.length-1].blend = CanvasKit.BlendMode.SrcATop
+        requestAnimationFrame(drawFrame);
       })
       requestAnimationFrame(drawFrame);
     });
